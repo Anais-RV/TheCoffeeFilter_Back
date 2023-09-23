@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CoffeeShop extends Model
 {
     use HasFactory;
+    protected $table = 'coffeeshops';
 
     public function city()
     {
