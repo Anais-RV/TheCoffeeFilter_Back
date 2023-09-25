@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CommunitiesSeeder::class,
             CitiesSeeder::class,
             CoffeeShopsSeeder::class,
+            AdminUsersSeeder::class,
         ]);
     }
 }
