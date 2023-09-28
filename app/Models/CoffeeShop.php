@@ -9,6 +9,7 @@ class CoffeeShop extends Model
 {
     use HasFactory;
     protected $table = 'coffeeshops';
+    protected $fillable = ['name', 'address', 'description', 'photo', 'state', 'city_id'];
 
     public function city()
     {

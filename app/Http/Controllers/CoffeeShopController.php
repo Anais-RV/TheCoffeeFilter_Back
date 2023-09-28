@@ -7,10 +7,19 @@ use Illuminate\Http\Request;
 
 class CoffeeShopController extends Controller
 {
+    
     public function index()
     {
-        return CoffeeShop::all();
+        $allCoffeeShops = CoffeeShop::where('state', 'Approved')->get();
+        return response()->json(['data' => $allCoffeeShops]);
     }
+
+    public function adminIndex()
+    {
+        $allCoffeeShops = CoffeeShop::all();
+        return response()->json(['data' => $allCoffeeShops]);
+    }
+
 
     public function create()
     {
@@ -25,12 +34,15 @@ class CoffeeShopController extends Controller
             'address' => 'required|max:255',
             'description' => 'string|nullable',
             'photo' => 'url|nullable',
-            'state' => 'required|in:Suggested, Approved, Rejected',
+            'city_id' => 'required|integer|exists:cities,id'  
         ]);
+
+
+        $validatedData['state'] = 'Suggested';
 
         $coffeeShop = CoffeeShop::create($validatedData);
 
-        return response()->json(['message' => 'CoffeeShop created successfully', 'data' => $coffeeShop]);
+        return response()->json(['message' => 'CoffeeShop suggested successfully', 'data' => $coffeeShop]);
     }
 
     public function show($id)
@@ -52,6 +64,7 @@ class CoffeeShopController extends Controller
             'description' => 'string|nullable',
             'photo' => 'url|nullable',
             'state' => 'required|in:Suggested, Approved, Rejected',
+            'city_id' => 'required|integer|exists:cities,id',
         ]);
 
         $coffeeShop = CoffeeShop::findOrFail($id);
@@ -67,4 +80,11 @@ class CoffeeShopController extends Controller
 
         return response()->json(['message' => 'CoffeeShop deleted successfully']);
     }
+
+    public function suggestedCoffeeShops()
+    {
+        $suggestedCoffeeeShops = CoffeeShop::where('state', 'Suggested') ->get();
+        return response()->json(['data' =>  $suggestedCoffeeeShops]);
+    }
+
 }

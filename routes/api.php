@@ -18,6 +18,11 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function() 
     Route::post('/coffeeshops', [CoffeeShopController::class, 'store']);
     Route::put('/coffeeshops/{id}', [CoffeeShopController::class, 'update']);
     Route::delete('/coffeeshops/{id}', [CoffeeShopController::class, 'destroy']);
+    Route::get('/coffeeshops/all', [CoffeeShopController::class, 'adminIndex']);
+    Route::get('/coffeeshops/suggested', [CoffeeShopController::class, 'suggestedCoffeeShops']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
+
 
     // Ruta para obtener el usuario autenticado
     Route::get('/user', function (Request $request) {
