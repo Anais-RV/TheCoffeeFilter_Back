@@ -30,11 +30,12 @@ class CoffeeShopController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'address' => 'required|max:255',
+            'name' => 'max:255',
+            'address' => 'max:255',
             'description' => 'string|nullable',
-            'photo' => 'url|nullable',
-            'city_id' => 'required|integer|exists:cities,id'  
+            'photo' => 'nullable',
+            'state' => 'in:Suggested,Approved,Rejected',
+            'city_id' => 'integer|exists:cities,id'  
         ]);
 
 
@@ -59,16 +60,19 @@ class CoffeeShopController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'address' => 'required|max:255',
+            'name' => 'max:255',
+            'address' => 'max:255',
             'description' => 'string|nullable',
-            'photo' => 'url|nullable',
-            'state' => 'required|in:Suggested, Approved, Rejected',
-            'city_id' => 'required|integer|exists:cities,id',
+            'photo' => 'nullable',
+            'state' => 'in:Suggested,Approved,Rejected',
+            'city_id' => 'integer|exists:cities,id' 
         ]);
+        
 
         $coffeeShop = CoffeeShop::findOrFail($id);
         $coffeeShop->update($validatedData);
+
+
 
         return response()->json(['message' => 'CoffeeShop updated successfully', 'data' => $coffeeShop]);
     }
@@ -86,5 +90,25 @@ class CoffeeShopController extends Controller
         $suggestedCoffeeeShops = CoffeeShop::where('state', 'Suggested') ->get();
         return response()->json(['data' =>  $suggestedCoffeeeShops]);
     }
+
+    public function suggest(Request $request) {
+
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'description' => 'string|nullable',
+            'photo' => 'nullable|string',
+            'city_id' => 'required|integer|exists:cities,id',
+        ]);
+    
+        $validatedData['state'] = 'Suggested';
+        $coffeeShop = CoffeeShop::create($validatedData);
+
+        return response()->json([
+            'message' => 'CoffeeShop suggestion added successfully!',
+            'data' => $coffeeShop
+        ], 201);  
+    }
+    
 
 }

@@ -21,4 +21,6 @@ class AdminMiddleware
 
         return response()->json(['error' => 'Unauthorized'], 403);
     }
+    
 }
+

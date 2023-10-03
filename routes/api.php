@@ -8,6 +8,12 @@ use App\Http\Controllers\AuthController;
 // Rutas públicas
 Route::get('/coffeeshops', [CoffeeShopController::class, 'index']);
 Route::get('/coffeeshops/{id}', [CoffeeShopController::class, 'show']);
+Route::post('/coffeeshops/suggest', [CoffeeShopController::class, 'suggest']);
+
+// Route::get('/api/communities', [CommunityController::class, 'index']);
+// Route::get('/api/cities', [CityController::class, 'index']);
+
+
 
 // Ruta de login para el administrador (esta no necesita estar protegida)
 Route::post('admin/login', [AuthController::class, 'login']);
